@@ -1,7 +1,17 @@
 export const selectUsersTemplate = `
-SELECT *
+SELECT 
+  users.id,
+  users.name,
+  users.username,
+  users.email,
+  users.phone,
+  addresses.street,
+  addresses.city,
+  addresses.state,
+  addresses.zipcode
 FROM users
-ORDER BY name
+LEFT JOIN addresses ON users.id = addresses.user_id
+ORDER BY users.name
 LIMIT ?, ?
 `;
 
