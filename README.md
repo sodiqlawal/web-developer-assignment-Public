@@ -43,10 +43,17 @@ For development mode without hot reloading (required by nodemon):
 npm run dev:once
 ```
 
+
+For test runner
+
+```bash
+npm run test
+```
+
 ## Project Structure
 
 ```
-backend/
+/
 ├── src/           # TypeScript source files
 ├── dist/          # Compiled JavaScript files (generated after build)
 ├── config/        # Configuration files
