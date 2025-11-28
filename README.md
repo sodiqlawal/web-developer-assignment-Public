@@ -68,7 +68,7 @@ npm run test
 
 
 
-# Users-Posts Frontend
+# Frontend
 
 ## System requirements
 
