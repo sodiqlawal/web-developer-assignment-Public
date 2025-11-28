@@ -53,7 +53,7 @@ npm run test
 ## Project Structure
 
 ```
-/
+/backend
 ├── src/           # TypeScript source files
 ├── dist/          # Compiled JavaScript files (generated after build)
 ├── config/        # Configuration files
