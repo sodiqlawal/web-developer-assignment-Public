@@ -1,104 +1,117 @@
-# Users-Posts Backend
+# Web Developer Assignment
 
-This is the backend server for the Web Developer Assignment, built with Node.js, TypeScript, Express.js, and SQLite3.
+## Backend
 
-## Prerequisites
+### Provided Backend
 
-- Node
-- TypeScript
-- Npm
-- SQLite3
+A Node server written in TypeScript is provided.
+The server utilizes an SQLite database (data.db) containing all relevant data, including users posts and adders.
+The server exposes several partial RESTful API endpoints:
 
-## Installation
+- User Endpoints:
+   - GET /users: Returns a list of users with pagination support.
+   - GET /users/count: Returns the total number of users.
+- Post Endpoint:
+   - GET /posts: Returns posts filtered by a specific user ID, using the userId query parameter (e.g., /posts?userId={userId}).
 
-1. Install dependencies:
+### Backend Requirements
 
-   ```bash
-   npm install
-   ```
+You are required to implement the following backend functionalities:
 
-2. Build the project:
-   ```bash
-   npm run build
-   ```
-   This will compile TypeScript files from `src/` into JavaScript in the `dist/` directory.
+- **Adders to User**
+   - Extend the existing user-related endpoints to include adders (metadata associated with the user).
+   - Query the adders from the database and include them in the user response.
+   - Ensure the adders are properly validated and formatted before returning to the frontend.
+- **Post Deletion**
+   - Create an endpoint to delete a post by its ID.
+   - Remove the post from the database upon successful deletion.
+   - Return appropriate HTTP status codes and messages.
+- **Add a New Post**
+   - Create an endpoint to add a new post for a user, accepting **Title**, **Body**, and **User ID**.
+   - Validate input data and handle errors.
+   - Save the new post to the database upon success.
 
-## Running the Server
+## Front-End
 
-Start the server in production mode:
+### General Requirements
 
-```bash
-npm start
-```
+- Implement the web UI using **TypeScript**, **React**, **React Query**, and **Tailwind CSS**.
+- Follow the **Figma design** provided in the Resources section.
+- Ensure **graceful handling of API errors** or unexpected data from the backend.
+- Components and pages should have **error and loading states**.
+- Include **at least one unit test** for the web UI.
+- Emphasize **code reusability** and **separation of concerns** in your components.
 
-For development mode with hot reloading:
+### Users Table
 
-```bash
-npm run dev
-```
+- Set up an internal API that fetches a list of users from your backend API, using the pagination.
+- Display the users in an organized table with the following features:
+   - **Pagination**: Show 4 users per page.
+   - **User Details**:
+      - Full Name
+      - Email Address
+      - Address formatted as "street, state, city, zipcode". Keep the address column at 392px width and use ellipsis (...) for any overflow.
 
-For development mode without hot reloading (required by nodemon):
+### User Posts
 
-```bash
-npm run dev:once
-```
+- When clicking on a user row, navigate to a new page that displays a list of the user's posts.
+- Fetch the user's posts from your backend API.
+- The page should include:
+   - A header with a summary of the user and the number of posts.
+   - A list of all posts (**no pagination required**).
+   - Each post should display:
+      - **Title**
+      - **Body**
+      - A **Delete** icon.
+         - Clicking the Delete icon should delete the post via your backend API and update the UI accordingly.
+   - An option to **add a new post**:
+      - Include a button that opens a form to create a new post with **Title** and **Body** fields.
+      - Upon submission, the new post should be saved via your backend API and appear in the list of posts without requiring a page refresh.
+- Ensure the design is intuitive and posts are easily readable by closely following the provided Figma design.
 
+## Guidelines
 
-For test runner
+1. **State Management with React Query**
+   - Use React Query to manage server state.
+   - Ensure efficient data fetching, caching, and synchronization with the backend.
+   - Utilize React Query's features to handle loading and error states.
+2. **Code Reusability and Separation**
+   - Structure your components to promote reusability and maintainability.
+   - Abstract shared logic into custom hooks or utility functions where appropriate.
+   - Follow best practices for component composition and props management.
+3. **Responsiveness**
+   - Ensure the application is responsive and functions well on various screen sizes and devices.
+   - Use Tailwind CSS utilities to create responsive layouts.
+4. **Performance Optimization**
+   - Optimize the application for performance, minimizing unnecessary re-renders.
+   - Use React's memoization techniques where applicable.
+   - Efficiently manage list rendering.
+5. **Error Handling**
+   - Implement robust error handling for API requests and unexpected data.
+   - Provide meaningful feedback to the user in case of errors.
+   - Use try-catch blocks and handle promise rejections appropriately in your backend.
+6. **Testing**
+   - Include at least one unit test for a critical component or functionality in your frontend code.
+   - Use testing libraries such as Jest and React Testing Library.
+   - Write tests that are meaningful and cover important use cases.
 
-```bash
-npm run test
-```
+## Resources
 
-## Project Structure
+- **Backend Server**: A partially implemented Node server in TypeScript will be provided. You are expected to complete the specified backend functionalities.
+- **SQLite Database**: The backend uses the `data.db` SQLite database, which contains all necessary data.
+- **Figma Design**: Follow the design specifications outlined in the provided Figma file.
+  [Figma Design for Web UI](https://www.figma.com/design/Wkbz27sGWBOFMDocOck4mm/Full-Stack-Developer-Assignment?node-id=0-1&node-type=canvas&t=zK4X8qKaPmxu84XZ-0)
 
-```
-/backend
-├── src/           # TypeScript source files
-├── dist/          # Compiled JavaScript files (generated after build)
-├── config/        # Configuration files
-└── ...
-```
+## Deliverables
 
-## Important Notes
+- A full-stack application that meets the above requirements.
+- Source code organized and documented for readability.
+- Completed backend functionalities as specified.
+- At least one unit test demonstrating testing of a component or functionality.
+- Instructions on how to run the application locally, including setting up the backend and frontend.
 
-- Make sure the TypeScript files are properly compiled into the `dist/` directory before running the server
-- The production server runs from the compiled files in `dist/`
-- Development mode runs directly with ts-node and nodemon for hot reloading
+## Submission Instructions
 
-
-
-# Frontend
-
-## System requirements
-
-- [Git](https://git-scm.com/)
-- [Node.js ](https://nodejs.org/)
-- [Npm](https://www.npmjs.com/)
-
-You should be able to verify all these are installed correctly using:
-
-```
-node --version
-npm --version
-git --version
-```
-
-## Setup
-Please go through the following steps to run this project locally:
--  Install all the dependencies using `npm install`. 
--  Start the project in development mode using `npm run dev`.
--  Run the test suite using npm run test `npm run test`.
-
-## Naming conventions
-* folders and `.ts` files follow the `kebab` convention
-* hooks follow the `camelCase` convention
-* components that return a `JSX.Element` like `.tsx` follow the `PascalCase` convention
-
-
-## Technologies used 🛠️
-
-- [Typescript](https://www.typescriptlang.org/) - for setting an interface for the app
-- [Formik](https://formik.org/) - A popular React library for building and managing forms with easy-to-use form state management and validation support.
-- [Yup](https://github.com/jquense/yup) - A JavaScript schema builder for value parsing and validation, commonly used with Formik for form validation schemas.
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - for testing
+- **Code Repository**: Provide access to your code via a Git repository (e.g., GitHub, GitLab).
+- **Readme File**: Include a `README.md` file with instructions on how to install dependencies, set up the database, run migrations (if any), and start both the backend and frontend servers.
+- **Testing Instructions**: Include instructions on how to run your unit tests.
