@@ -8,10 +8,17 @@ import Modal from '../ui/Modal';
 import * as yup from 'yup';
 import { useParams } from 'next/navigation';
 import { useCreatePost } from '@/services/posts/hooks/useCreatePost';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object().shape({
-  title: yup.string().required('Post title is required'),
-  body: yup.string().required('Post body is required'),
+  title: yup
+    .string()
+    .max(40, 'Post title must be at most 40 characters')
+    .required('Post title is required'),
+  body: yup
+    .string()
+    .max(300, 'Post body must be at most 300 characters')
+    .required('Post body is required'),
 });
 
 interface Props {
@@ -33,6 +40,7 @@ const CreatePostModal = ({ controller }: Props) => {
       {
         onSuccess: () => {
           helpers.resetForm();
+          toast.success('Post created successfully.');
         },
       }
     );

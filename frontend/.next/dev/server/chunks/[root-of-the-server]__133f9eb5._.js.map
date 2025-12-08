@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///Users/Sodiq/Documents/web-developer-assignment-Public/front/proxy.ts"],"sourcesContent":["import { NextRequest, NextResponse } from 'next/server';\nexport async function proxy(request: NextRequest) {\n  if (request.nextUrl.pathname === '/') {\n    return NextResponse.rewrite(\n      new URL('/users', request.url)\n    );\n  }\n  return NextResponse.next();\n}\n"],"names":[],"mappings":";;;;AAAA;;AACO,eAAe,MAAM,OAAoB;IAC9C,IAAI,QAAQ,OAAO,CAAC,QAAQ,KAAK,KAAK;QACpC,OAAO,gNAAY,CAAC,OAAO,CACzB,IAAI,IAAI,UAAU,QAAQ,GAAG;IAEjC;IACA,OAAO,gNAAY,CAAC,IAAI;AAC1B"}}]
-}

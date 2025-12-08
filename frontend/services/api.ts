@@ -2,9 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL:
-    process.env.NEXT_PUBLIC_API_URL ||
-    'https://web-developer-assignment-public-production.up.railway.app/', // Base URL for the API
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

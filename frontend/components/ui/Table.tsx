@@ -1,6 +1,7 @@
 import React from 'react';
 import Loader from './Loader';
 import { cn } from '@/utils';
+import Link from 'next/link';
 
 export interface TableField<T> {
   name: keyof T;
@@ -23,7 +24,7 @@ export interface TableProps<T, D> {
   tableData: D[];
   noDataMessage?: string;
   builder: FieldBuilder<T, D>;
-  onRowClick?: (i: number) => void;
+  getRowHref?: (i: number) => string;
   isLoading?: boolean;
   columns?: number;
   rows?: number;
@@ -33,7 +34,7 @@ function Table<TField, TData = TField>({
   tableData,
   fields,
   builder,
-  onRowClick,
+  getRowHref,
   isLoading = false,
   columns,
   rows,
@@ -52,9 +53,18 @@ function Table<TField, TData = TField>({
       rowElements.push(
         <td
           key={j}
-          className='whitespace-nowrap p-3'
+          className='whitespace-nowrap relative'
         >
-          {builder(field, data, i, j)}
+          {getRowHref ? (
+            <Link
+              href={getRowHref(i)}
+              className='block w-full h-full p-3'
+            >
+              {builder(field, data, i, j)}
+            </Link>
+          ) : (
+            builder(field, data, i, j)
+          )}
         </td>
       );
     }
@@ -62,8 +72,7 @@ function Table<TField, TData = TField>({
     columnElements.push(
       <tr
         key={i}
-        className='text-sm leading-[20px] border-b border-gray-500 cursor-pointer hover:bg-b-alpha-1'
-        onClick={() => onRowClick?.(i)}
+        className='relative text-sm leading-[20px] border-b border-gray-500 cursor-pointer hover:bg-b-alpha-1'
       >
         {rowElements}
       </tr>

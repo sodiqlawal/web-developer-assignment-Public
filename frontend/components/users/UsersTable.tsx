@@ -1,11 +1,10 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Pagination from '../ui/Pagination';
 import { User } from '@/types/user';
 import Table from '../ui/Table';
-import { formatUserAddress } from '@/utils';
 import { fetchUsersAPI } from '@/services/users/query';
 import { EQueryKey } from '@/constants/query-keys';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
@@ -26,6 +25,7 @@ export function UsersTable({
 }: UsersTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const pageParam = searchParams.get('page') ?? '1';
   const page = Number(pageParam);
@@ -39,18 +39,17 @@ export function UsersTable({
 
   const handlePageChange = useCallback(
     (newPage: number) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('page', newPage.toString());
-      router.push(`?${params.toString()}`, { scroll: false });
+      const q = `page=${newPage}`;
+      router.push(`${pathname}?${q}`, { scroll: false });
     },
-    [router, searchParams]
+    [router, pathname]
   );
 
-  const handleRowClick = useCallback(
+  const getRowHref = useCallback(
     (i: number) => {
-      router.push(`/users/${usersData?.[i].id}/posts?page=${page}`);
+      return `/users/${usersData?.[i].id}/posts?page=${page}`;
     },
-    [router, usersData, page]
+    [usersData, page]
   );
 
   return (
@@ -58,14 +57,14 @@ export function UsersTable({
       <Table<User>
         fields={tableHead}
         isLoading={isLoading}
-        onRowClick={handleRowClick}
+        getRowHref={getRowHref}
         tableData={usersData || []}
         builder={(field, data) => {
           switch (field.name) {
             case 'address':
               return (
                 <p className='max-w-[392px] truncate'>
-                  {formatUserAddress(data)}
+                  {data.address}
                 </p>
               );
             default:

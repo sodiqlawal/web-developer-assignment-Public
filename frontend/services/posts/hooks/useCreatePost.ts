@@ -23,6 +23,7 @@ export function useCreatePost(controller?: Controller) {
         {
           id: crypto.randomUUID(),
           ...newPost,
+          created_at: new Date().toISOString(),
         },
       ]);
 
@@ -31,7 +32,7 @@ export function useCreatePost(controller?: Controller) {
     },
     onError: (err, newPost, context) => {
       toast.error(err?.message || 'An unexpected error occurred');
-      
+
       // rollback logic using context.previousPosts
       queryClient.setQueryData(
         [EQueryKey.posts],

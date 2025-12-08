@@ -25,10 +25,15 @@ const Posts = () => {
   ]);
 
   const { data: posts, isLoading } = useQuery({
-    queryKey: [EQueryKey.posts],
+    queryKey: [EQueryKey.posts, userId],
     queryFn: () => fetchPostsAPI({ userId }),
     enabled: !!userId,
   });
+
+  const sortedPosts = useMemo(() => {
+    if(!posts || !posts?.length) return [];
+    return [...posts].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());;
+  },[posts])
 
   // retrieve the info of the user who made these posts
   const user = useMemo(
@@ -68,7 +73,7 @@ const Posts = () => {
       <div className='grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[23px]'>
         <CreatePostCard className={cn({ 'sm:max-w-[270px]': posts?.length })} />
         {posts?.length
-          ? posts.map((post) => (
+          ? sortedPosts.map((post) => (
               <PostCard
                 key={post.id}
                 post={post}

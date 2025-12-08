@@ -30,7 +30,7 @@ const TextArea: FC<
         {...input}
         value={input.value || ''}
         className={cn(
-          'w-full rounded-[6px] border border-gray-500 bg-white outline-none py-2 px-3 mt-1 h-[141px] text-sm',
+          'w-full rounded-[6px] border border-gray-500 bg-white outline-none py-2 px-3 mt-1 h-[141px] text-sm resize-none',
           {
             'border-danger-500': isError,
           }

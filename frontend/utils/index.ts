@@ -10,52 +10,42 @@ export const getPagination = (
   currentPage: number,
   totalPages: number
 ): (number | string)[] => {
-  const pages: (number | string)[] = [];
+  const first = 1;
+  const last = totalPages;
 
-  // Small page counts: show everything
+  // 1) Small lists: no ellipsis
   if (totalPages <= 7) {
-    for (let i = 1; i <= totalPages; i++) pages.push(i);
-    return pages;
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  // Always show first page
-  pages.push(1);
+  // 2) ONE ELLIPSIS CASES (6 numbers + 1 ellipsis)
 
-  // Decide where the "last three" window starts
-  const lastWindowStart = totalPages - 2;
-
-  // CASE 1: we're before the last window
-  if (currentPage < lastWindowStart - 1) {
-    // show current page window (current ± 1), but not beyond lastWindowStart - 1
-    const start = Math.max(2, currentPage - 1);
-    const end = Math.min(lastWindowStart - 1, currentPage + 1);
-
-    for (let i = start; i <= end; i++) pages.push(i);
-
-    // only show ellipsis if there is a gap before last 3 pages
-    if (end < lastWindowStart - 1) {
-      pages.push('...');
-    }
-
-    // always show the last three pages
-    for (let i = lastWindowStart; i <= totalPages; i++) {
-      pages.push(i);
-    }
-
-    return pages;
+  // Near the start: 1 2 3 4 5 … last
+  if (currentPage <= 4) {
+    return [1, 2, 3, 4, 5, '…', last];
   }
 
-  // CASE 2: we're inside or after the last window -> just show last 4 + possible ellipsis
-  // If there are pages between 1 and lastWindowStart, show ellipsis
-  if (lastWindowStart > 2) {
-    pages.push('...');
+  // Near the end: 1 … last-4 last-3 last-2 last-1 last
+  if (currentPage >= totalPages - 3) {
+    return [first, '…', last - 4, last - 3, last - 2, last - 1, last];
   }
 
-  for (let i = lastWindowStart; i <= totalPages; i++) {
-    pages.push(i);
-  }
+  // 3) TWO ELLIPSES (MIDDLE): 5 middle numbers + 2 ellipses = 7 numbers total
+  // 1 … p-2 p-1 p p+1 p+2 … last
+  const middleStart = currentPage - 2;
+  const middleEnd = currentPage + 2;
 
-  return pages;
+  return [
+    first,
+    '…',
+    middleStart,
+    middleStart + 1,
+    currentPage,
+    middleEnd - 1,
+    middleEnd,
+    '…',
+    last,
+  ];
 };
 
 export const formatUserAddress = (user: User) => {
