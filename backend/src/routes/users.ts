@@ -2,6 +2,20 @@ import { Router, Request, Response } from "express";
 
 import { getUsers, getUsersCount } from "../db/users/users";
 
+import { User } from "../db/users/types";
+
+interface UserResponse extends Omit<User, 'street' | 'state' | 'city' | 'zipcode'> {
+  address: string;
+}
+
+const formatUserAddress = (user: User): UserResponse => {
+  const { street, state, city, zipcode, ...rest } = user;
+  return {
+    ...rest,
+    address: `${street}, ${state}, ${city}, ${zipcode}`,
+  };
+};
+
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
@@ -20,12 +34,14 @@ router.get("/", async (req: Request, res: Response) => {
     }
 
     const users = await getUsers(pageNumber, pageSize);
-    res.status(200).json(users);
+    const formattedUsers = users.map(formatUserAddress);
+    res.status(200).json(formattedUsers);
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Failed to fetch users" });
   }
 });
+
 
 router.get("/count", async (req: Request, res: Response) => {
   try {
