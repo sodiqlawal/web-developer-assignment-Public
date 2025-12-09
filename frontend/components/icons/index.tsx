@@ -21,10 +21,10 @@ export const Icons = {
       />
     </svg>
   ),
-  delete: ({ className, ...props }: IconProps) => (
+  delete: ({ width, height, ...props }: IconProps) => (
     <svg
-      width='14'
-      height='14'
+      width={width || '16'}
+      height={height || '16'}
       viewBox='0 0 12 12'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

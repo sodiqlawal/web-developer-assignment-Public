@@ -32,7 +32,8 @@ const PostCard = ({ post }: Props) => {
         className='absolute top-[4px] right-[4px] cursor-pointer p-[6px]'
         onClick={handleDelete}
       >
-        <Icons.delete />
+        <Icons.delete className='hidden sm:block' />
+        <Icons.delete width='18' height='18' className='block sm:hidden' />
       </div>
     </div>
   );
