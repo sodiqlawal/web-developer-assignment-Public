@@ -113,10 +113,10 @@ function Table<TField, TData = TField>({
       <div
         className={cn(
           'h-full flex items-center justify-center absolute top-0 bottom-0 left-0 right-0',
-          { hidden: columnElements?.length > 0 }
+          { hidden: columnElements?.length > 0 || isLoading }
         )}
       >
-        <div className={cn({ hidden: isLoading })}>{noDataMessage}</div>
+        <div>{noDataMessage}</div>
       </div>
     </div>
   );

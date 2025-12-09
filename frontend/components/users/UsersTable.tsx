@@ -17,18 +17,16 @@ const tableHead: { name: keyof User; displayName: string }[] = [
 interface UsersTableProps {
   usersCount: number;
   DEFAULT_PAGE_LIMIT: number;
+  page: number
 }
 
 export function UsersTable({
   usersCount,
   DEFAULT_PAGE_LIMIT,
+  page
 }: UsersTableProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-
-  const pageParam = searchParams.get('page') ?? '1';
-  const page = Number(pageParam);
 
   const { data: usersData, isLoading } = useQuery({
     queryKey: [EQueryKey.users, page],
