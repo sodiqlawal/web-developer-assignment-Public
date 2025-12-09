@@ -1,5 +1,31 @@
-# modules
-node_modules
+# dependencies
+**/node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 
-# compiled
-dist
+# testing
+/coverage
+
+# next.js
+frontend/.next/
+
+
+# production
+/build
+
+# misc
+.DS_Store
+
+# debug
+npm-debug.log*
+
+# local env files
+*.env
+
+# typescript
+*.tsbuildinfo
+frontend/next-env.d.ts
+
+# npm lock
+**/package-lock.json

@@ -3,26 +3,16 @@ import { EQueryKey } from '@/constants/query-keys';
 import { fetchPostsAPI } from '@/services/posts/query';
 import { User } from '@/types/user';
 import { cn } from '@/utils';
-import { useParams, useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import BreadCrumb from '../ui/BreadCrumb';
 import CreatePostCard from '../ui/cards/CreatePostCard';
 import PostCard from '../ui/cards/PostCard';
 import Loader from '../ui/Loader';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-const Posts = () => {
-  const params = useParams<{ 'user-id': string }>();
-  const searchParams = useSearchParams();
-
-  const userId = params['user-id'];
-  const pageParam = searchParams.get('page') as string;
-
+const Posts: FC<{ userId: string; page: number }> = ({ page, userId }) => {
   const queryClient = useQueryClient();
-  const usersData = queryClient.getQueryData<User[]>([
-    EQueryKey.users,
-    Number(pageParam),
-  ]);
+  const usersData = queryClient.getQueryData<User[]>([EQueryKey.users, page]);
 
   const { data: posts, isLoading } = useQuery({
     queryKey: [EQueryKey.posts, userId],
@@ -31,9 +21,12 @@ const Posts = () => {
   });
 
   const sortedPosts = useMemo(() => {
-    if(!posts || !posts?.length) return [];
-    return [...posts].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());;
-  },[posts])
+    if (!posts || !posts?.length) return [];
+    return [...posts].sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+  }, [posts]);
 
   // retrieve the info of the user who made these posts
   const user = useMemo(
@@ -43,7 +36,7 @@ const Posts = () => {
 
   const breadCrumbs = useMemo(
     () => [
-      { title: 'Users', href: `/users?page=${pageParam}` },
+      { title: 'Users', href: `/users?page=${page}` },
       { title: user?.name || '', isDisabled: true },
     ],
     [user]
