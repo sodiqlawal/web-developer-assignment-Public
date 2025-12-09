@@ -1,8 +1,8 @@
 import Posts from '@/components/posts/Posts';
 
 type Props = {
-  params: { 'user-id': string };
-  searchParams: { page?: string };
+  params: Promise<{ 'user-id': string }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
 const Page = async ({ params, searchParams }: Props) => {

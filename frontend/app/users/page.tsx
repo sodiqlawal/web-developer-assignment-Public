@@ -1,7 +1,7 @@
 import Users from '@/components/users/Users';
 
 type Props = {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 };
 
 const Page = async({ searchParams }: Props) => {
