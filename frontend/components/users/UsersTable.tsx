@@ -7,7 +7,8 @@ import { User } from '@/types/user';
 import Table from '../ui/Table';
 import { fetchUsersAPI } from '@/services/users/query';
 import { EQueryKey } from '@/constants/query-keys';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchPostsAPI } from '@/services/posts/query';
 
 const tableHead: { name: keyof User; displayName: string }[] = [
   { name: 'name', displayName: 'Full name' },
@@ -27,6 +28,7 @@ export function UsersTable({
 }: UsersTableProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   const { data: usersData, isLoading } = useQuery({
     queryKey: [EQueryKey.users, page],
@@ -45,6 +47,14 @@ export function UsersTable({
 
   const getRowHref = useCallback(
     (i: number) => {
+      const userId = usersData?.[i].id || '';
+      if (userId) {
+        // Prefetch posts so they're ready when user clicks
+        queryClient.prefetchQuery({
+          queryKey: [EQueryKey.posts, userId],
+          queryFn: () => fetchPostsAPI({ userId }),
+        });
+      }
       return `/users/${usersData?.[i].id}/posts?page=${page}`;
     },
     [usersData, page]
