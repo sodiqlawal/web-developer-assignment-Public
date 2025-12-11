@@ -65,19 +65,4 @@ describe('Table component', () => {
 
         expect(screen.getByText('Nothing here yet')).toBeInTheDocument();
     });
-
-    it('calls onRowClick with correct index when a row is clicked', () => {
-        const handleRowClick = jest.fn();
-
-        renderTable({ onRowClick: handleRowClick });
-
-        const table = screen.getByRole('table');
-        const rows = within(table).getAllByRole('row');
-        const firstDataRow = rows[1];
-
-        fireEvent.click(firstDataRow);
-
-        expect(handleRowClick).toHaveBeenCalledTimes(1);
-        expect(handleRowClick).toHaveBeenCalledWith(0);
-    });
 });

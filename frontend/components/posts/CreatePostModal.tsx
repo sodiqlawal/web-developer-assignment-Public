@@ -17,7 +17,7 @@ const validationSchema = yup.object().shape({
     .required('Post title is required'),
   body: yup
     .string()
-    .max(300, 'Post body must be at most 300 characters')
+    .max(10000, 'Post body must be at most 10000 characters')
     .required('Post body is required'),
 });
 

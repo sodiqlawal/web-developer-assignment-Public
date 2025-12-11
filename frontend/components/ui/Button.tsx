@@ -3,6 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = {
   isPrimary?: boolean;
+  isDanger?: boolean;
   isOutlined?: boolean;
   title: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -10,6 +11,7 @@ type ButtonProps = {
 const Button = ({
   title,
   isPrimary,
+  isDanger,
   isOutlined,
   className,
   ...props
@@ -20,7 +22,9 @@ const Button = ({
         'py-2 px-4 text-sm leading-[1.43] rounded-[8px] font-medium cursor-pointer',
         {
           'bg-blue-500 text-white': isPrimary,
-          'bg-white text-dark-600 border border-gray-500 shadow-btn': isOutlined,
+          'bg-danger-500 text-white': isDanger,
+          'bg-white text-dark-600 border border-gray-500 shadow-btn':
+            isOutlined,
           'pointer-events-none opacity-[0.5]': props.disabled,
         },
         className

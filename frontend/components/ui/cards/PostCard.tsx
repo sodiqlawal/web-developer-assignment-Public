@@ -1,21 +1,14 @@
 import { Icons } from '@/components/icons';
-import { useDeletePost } from '@/services/posts/hooks/useDeletePost';
+import DeletePostModal from '@/components/posts/DeletePostModal';
+import useController from '@/hooks/useController';
 import { Post } from '@/types/post';
-import { useParams } from 'next/navigation';
 
 interface Props {
   post: Post;
 }
 const PostCard = ({ post }: Props) => {
   if (!post) return null;
-  const params = useParams<{ 'user-id': string }>();
-  const userId = params['user-id'] || '';
-
-  const { mutate } = useDeletePost(userId);
-
-  const handleDelete = () => {
-    mutate(post.id);
-  };
+  const deleteWarningController = useController();
 
   return (
     <div className='w-full h-[293px] space-y-[16px] p-6 pb-1 rounded-[8px] border border-gray-500 bg-white shadow-card relative overflow-auto no-scrollbar'>
@@ -23,18 +16,23 @@ const PostCard = ({ post }: Props) => {
         {post.title}
       </h1>
       <p
-        className='text-sm leading-[1.43] text-dark-500 line-clamp-6'
+        className='text-sm leading-[1.43] text-dark-500 wrap-anywhere line-clamp-6'
         title={post.body}
       >
         {post.body}
       </p>
       <div
         className='absolute top-[4px] right-[4px] cursor-pointer p-[6px]'
-        onClick={handleDelete}
+        onClick={deleteWarningController.open}
       >
         <Icons.delete className='hidden sm:block' />
-        <Icons.delete width='18' height='18' className='block sm:hidden' />
+        <Icons.delete
+          width='18'
+          height='18'
+          className='block sm:hidden'
+        />
       </div>
+      <DeletePostModal controller={deleteWarningController} post={post} />
     </div>
   );
 };

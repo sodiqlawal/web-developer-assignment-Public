@@ -1,4 +1,5 @@
 import { Colors } from '@/constants/color';
+import { cn } from '@/utils';
 
 type IconProps = React.HTMLAttributes<SVGElement> & {
   width?: string;
@@ -92,4 +93,20 @@ export const Icons = {
       />
     </svg>
   ),
+  warning: ({ className, color, ...props }: IconProps) => (
+    <svg
+      className={cn('h-6 w-6 text-danger-500', className)}
+      fill='none'
+      stroke='currentColor'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='2'
+        d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.314 15.5c-.77.833.192 2.5 1.732 2.5z'
+      ></path>
+    </svg>
+  )
 };

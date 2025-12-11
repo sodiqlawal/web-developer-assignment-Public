@@ -14,11 +14,13 @@ const Posts: FC<{ userId: string; page: number }> = ({ page, userId }) => {
   const queryClient = useQueryClient();
   const usersData = queryClient.getQueryData<User[]>([EQueryKey.users, page]);
 
-  const { data: posts, isLoading } = useQuery({
+  const { data: posts, isLoading:loading, isPending } = useQuery({
     queryKey: [EQueryKey.posts, userId],
     queryFn: () => fetchPostsAPI({ userId }),
     enabled: !!userId,
   });
+
+  const isLoading = isPending || loading;
 
   const sortedPosts = useMemo(() => {
     if (!posts || !posts?.length) return [];

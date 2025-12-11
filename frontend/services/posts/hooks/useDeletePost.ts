@@ -1,10 +1,11 @@
 import { EQueryKey } from '@/constants/query-keys';
+import { Controller } from '@/hooks/useController';
 import { deletePostAPI } from '@/services/posts/mutation';
 import { Post } from '@/types/post';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 
-export function useDeletePost(userId: string) {
+export function useDeletePost(userId: string, controller?: Controller) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -19,6 +20,7 @@ export function useDeletePost(userId: string) {
         old.filter((post) => post.id !== postId)
       );
 
+      controller?.close();
       return { previousPosts };
     },
     onError: (err, postId, context) => {

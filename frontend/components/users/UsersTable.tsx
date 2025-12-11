@@ -28,12 +28,14 @@ export function UsersTable({
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: usersData, isLoading } = useQuery({
+  const { data: usersData, isLoading:loading, isPending } = useQuery({
     queryKey: [EQueryKey.users, page],
     queryFn: () =>
       fetchUsersAPI({ pageNumber: page - 1, pageSize: DEFAULT_PAGE_LIMIT }),
     placeholderData: keepPreviousData,
   });
+
+  const isLoading = isPending || loading;
 
   const handlePageChange = useCallback(
     (newPage: number) => {

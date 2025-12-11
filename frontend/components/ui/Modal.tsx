@@ -7,12 +7,14 @@ interface ModalProps<T> {
   controller: Controller<T>;
   children: ReactNode;
   className?: string;
+  textClassName?: string;
   title?: string;
 }
 function Modal<T>({
   controller,
   children,
   className,
+  textClassName,
   title,
 }: ModalProps<T>) {
   const [mounted, setMounted] = useState(false);
@@ -38,7 +40,16 @@ function Modal<T>({
           className
         )}
       >
-        {!!title && <h1 className='text-[26px] sm:text-[36px] mb-8 font-medium leading-[1.11] text-dark-500'>{title}</h1>}
+        {!!title && (
+          <h1
+            className={cn(
+              'text-[26px] sm:text-[36px] mb-8 font-medium leading-[1.11] text-dark-500',
+              textClassName
+            )}
+          >
+            {title}
+          </h1>
+        )}
         {children}
       </div>
     </div>,
