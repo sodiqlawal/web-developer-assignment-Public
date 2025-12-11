@@ -24,7 +24,7 @@ const DeletePostModal = ({ controller, post }: Props) => {
       controller={controller}
       title='Delete Post'
       className='md:max-w-[448px] min-h-fit'
-      textClassName='sm:text-xl font-semibold mb-6'
+      textClassName='text-lg sm:text-xl font-semibold mb-6'
     >
       <div>
         <div className='mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4'>

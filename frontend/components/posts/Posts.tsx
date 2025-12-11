@@ -14,13 +14,13 @@ const Posts: FC<{ userId: string; page: number }> = ({ page, userId }) => {
   const queryClient = useQueryClient();
   const usersData = queryClient.getQueryData<User[]>([EQueryKey.users, page]);
 
-  const { data: posts, isLoading:loading, isPending } = useQuery({
+  const { data: posts, isLoading, isPending } = useQuery({
     queryKey: [EQueryKey.posts, userId],
     queryFn: () => fetchPostsAPI({ userId }),
     enabled: !!userId,
   });
 
-  const isLoading = isPending || loading;
+  const isDataLoading = isPending || isLoading;
 
   const sortedPosts = useMemo(() => {
     if (!posts || !posts?.length) return [];
@@ -44,7 +44,7 @@ const Posts: FC<{ userId: string; page: number }> = ({ page, userId }) => {
     [user]
   );
 
-  if (isLoading)
+  if (isDataLoading)
     return (
       <div className='absolute inset-0 flex items-center justify-center'>
         <Loader />

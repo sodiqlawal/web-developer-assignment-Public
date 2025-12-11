@@ -83,7 +83,7 @@ function Table<TField, TData = TField>({
     <div className='border border-gray-500 rounded-[10px] bg-white relative text-dark-500 overflow-x-auto relative min-h-[220px]'>
       <table
         className={cn('w-full', {
-          hidden: isLoading || columnElements?.length === 0 || !columnElements,
+          hidden: columnElements?.length === 0 || !columnElements,
         })}
       >
         <thead className='text-sm leading-[20px] font-medium border-b border-gray-500'>

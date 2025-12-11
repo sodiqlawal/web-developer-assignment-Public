@@ -17,25 +17,30 @@ const tableHead: { name: keyof User; displayName: string }[] = [
 interface UsersTableProps {
   usersCount: number;
   DEFAULT_PAGE_LIMIT: number;
-  page: number
+  page: number;
 }
 
 export function UsersTable({
   usersCount,
   DEFAULT_PAGE_LIMIT,
-  page
+  page,
 }: UsersTableProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: usersData, isLoading:loading, isPending } = useQuery({
+  const {
+    data: usersData,
+    isLoading,
+    isPending,
+    isFetching,
+  } = useQuery({
     queryKey: [EQueryKey.users, page],
     queryFn: () =>
       fetchUsersAPI({ pageNumber: page - 1, pageSize: DEFAULT_PAGE_LIMIT }),
     placeholderData: keepPreviousData,
   });
 
-  const isLoading = isPending || loading;
+  const isDataLoading = isPending || isLoading || isFetching;
 
   const handlePageChange = useCallback(
     (newPage: number) => {
@@ -56,17 +61,13 @@ export function UsersTable({
     <div className='space-y-10'>
       <Table<User>
         fields={tableHead}
-        isLoading={isLoading}
+        isLoading={isDataLoading}
         getRowHref={getRowHref}
         tableData={usersData || []}
         builder={(field, data) => {
           switch (field.name) {
             case 'address':
-              return (
-                <p className='max-w-[392px] truncate'>
-                  {data.address}
-                </p>
-              );
+              return <p className='max-w-[392px] truncate'>{data.address}</p>;
             default:
               return data[field.name];
           }
