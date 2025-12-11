@@ -1,5 +1,5 @@
 'use client';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Pagination from '../ui/Pagination';
@@ -7,7 +7,7 @@ import { User } from '@/types/user';
 import Table from '../ui/Table';
 import { fetchUsersAPI } from '@/services/users/query';
 import { EQueryKey } from '@/constants/query-keys';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const tableHead: { name: keyof User; displayName: string }[] = [
   { name: 'name', displayName: 'Full name' },
@@ -32,15 +32,13 @@ export function UsersTable({
     data: usersData,
     isLoading,
     isPending,
-    isFetching,
   } = useQuery({
     queryKey: [EQueryKey.users, page],
     queryFn: () =>
       fetchUsersAPI({ pageNumber: page - 1, pageSize: DEFAULT_PAGE_LIMIT }),
-    placeholderData: keepPreviousData,
   });
 
-  const isDataLoading = isPending || isLoading || isFetching;
+  const isDataLoading = isPending || isLoading;
 
   const handlePageChange = useCallback(
     (newPage: number) => {
